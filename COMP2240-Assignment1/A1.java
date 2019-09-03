@@ -16,7 +16,8 @@ public class A1 {
 	        System.out.println("File: "+ System.getProperty("user.dir") + "\\" + name + "\n");
 	        
 	        if(importFile(name, dispatcher)) {
-	        	//Imported Good
+	        	dispatcher.setup();
+	        	dispatcher.begin();
 	        }else {
 	        	System.out.println("Error Occured While Importing!");
 	        }
@@ -58,7 +59,7 @@ public class A1 {
 			        	double time = Double.parseDouble(data[1]);
 			        	if(time >= 0.0) {
 			        		dispatcher.setDispatchTime(time);
-			        		i+=2;
+			        		i+=1;
 			        	}else {
 			        		System.out.println("Dispatch Time CANNOT be Negative!");
 			        		result = false;
