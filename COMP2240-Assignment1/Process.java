@@ -2,13 +2,14 @@
 public class Process {
 
 	private String ID;
-	private double arrive;
-	private double execSize;
-	private double turnAroundTime;
-	private double startTime;
+	private int arrive;
+	private int execSize;
+	private int turnAroundTime;
+	private int startTime;
+	private int timeRemaining;
 	
 	
-	Process(String ID, double arrive, double execSize){
+	Process(String ID, int arrive, int execSize){
 		this.ID = ID;
 		this.arrive = arrive;
 		this.execSize = execSize;
@@ -16,35 +17,35 @@ public class Process {
 		this.startTime = -1;
 	}
 
-	public double getArrive() {
+	public int getArrive() {
 		return arrive;
 	}
 
-	public void setArrive(double arrive) {
+	public void setArrive(int arrive) {
 		this.arrive = arrive;
 	}
 
-	public double getExecSize() {
+	public int getExecSize() {
 		return execSize;
 	}
 
-	public void setExecSize(double execSize) {
+	public void setExecSize(int execSize) {
 		this.execSize = execSize;
 	}
 
-	public double getTurnAroundTime() {
+	public int getTurnAroundTime() {
 		return turnAroundTime;
 	}
 
-	public void setTurnAroundTime(double turnAroundTime) {
+	public void setTurnAroundTime(int turnAroundTime) {
 		this.turnAroundTime = turnAroundTime;
 	}
 
-	public double getStartTime() {
+	public int getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(double startTime) {
+	public void setStartTime(int startTime) {
 		this.startTime = startTime;
 	}
 	
@@ -56,7 +57,19 @@ public class Process {
 		this.ID = ID;
 	}
 	
+	public int getTimeRemaining() {
+		return timeRemaining;
+	}
 	
+	public void setTimeRemaining(int timeRemaining) {
+		this.timeRemaining = timeRemaining;
+	}
+	
+	public boolean isDone() {
+		assert getTimeRemaining() >= 0; //Time remaining should not be negative
+		
+		return (getTimeRemaining() == 0) ? true : false;
+	}
 	
 
 }

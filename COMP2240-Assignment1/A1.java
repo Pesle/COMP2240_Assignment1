@@ -18,6 +18,7 @@ public class A1 {
 	        if(importFile(name, dispatcher)) {
 	        	dispatcher.setup();
 	        	dispatcher.begin();
+	        	dispatcher.results();
 	        }else {
 	        	System.out.println("Error Occured While Importing!");
 	        }
@@ -56,7 +57,7 @@ public class A1 {
 			    	//Split lines between type and data
 			        String[] data = lines[i].split(": ");
 			        if(data[0].equals("DISP")) {
-			        	double time = Double.parseDouble(data[1]);
+			        	int time = Integer.parseInt(data[1]);
 			        	if(time >= 0.0) {
 			        		dispatcher.setDispatchTime(time);
 			        		i+=1;
@@ -69,7 +70,7 @@ public class A1 {
 			        if(data[0].equals("ID")) {
 			        	String[] arrive = lines[i+1].split(": ");
 			        	String[] execSize = lines[i+2].split(": ");
-			        	dispatcher.addProcess(data[1], Double.parseDouble(arrive[1]), Double.parseDouble(execSize[1]));
+			        	dispatcher.addProcess(data[1], Integer.parseInt(arrive[1]), Integer.parseInt(execSize[1]));
 			        	i+=3;
 			        }
 			    }

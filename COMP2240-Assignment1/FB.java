@@ -1,8 +1,8 @@
-import java.util.ArrayList;
+import java.util.Queue;
 
 public class FB extends Algorithm{
 	
-	public FB(ArrayList<Process> processList, double dispatchTime) {
+	public FB(Queue<Process> processList, int dispatchTime) {
 		super("FB", processList, dispatchTime);
 	}
 	
