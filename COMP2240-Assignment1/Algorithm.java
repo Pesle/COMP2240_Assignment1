@@ -1,5 +1,7 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public abstract class Algorithm {
@@ -10,11 +12,15 @@ public abstract class Algorithm {
 	protected State state;
 	
 	protected Process runningProcess;
-	protected Queue<Process> processList;
 	protected ArrayList<Process> completedProcesses;
+	protected Queue<Process> processQueue;
 	
 	public Algorithm(String name, Queue<Process> processList, int dispatchTime) {
-		this.processList = processList;
+		this.processQueue = new PriorityQueue<Process>(new ProcessComparator());
+		Iterator<Process> it = processList.iterator();
+		while (it.hasNext()) {
+			processQueue.add(it.next());
+		}
 		this.completedProcesses = new ArrayList<Process>();
 		this.name = name;
 		this.state = State.IDLE;
@@ -32,6 +38,15 @@ public abstract class Algorithm {
 	
 	public State getState() {
 		return state;
+	}
+	
+	public void check() {
+		System.out.println(processQueue.size());
+		if(processQueue.size() > 0) {
+			state = State.BUSY;
+		}else {
+			state = State.FINISHED;
+		}
 	}
 	
 	public String toString() {
@@ -55,8 +70,19 @@ public abstract class Algorithm {
 		return process.getStartTime()-process.getArrive();
 	}
 	
-	public abstract void begin();
+	public void begin() {
+		state = State.BUSY;
+		while(state == State.BUSY) {
+			Process cur = processQueue.poll();
+			runningProcess = new Process(cur.getID(), cur.getArrive(), cur.getExecSize(), cur.getTimeRemaining());
+			if(!process()) {
+				processQueue.add(runningProcess);
+			}
+			completedProcesses.add(runningProcess);
+			check();
+		}
+	}
 	
-	public abstract void process();
+	public abstract boolean process();
 
 }

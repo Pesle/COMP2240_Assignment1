@@ -13,6 +13,16 @@ public class Process {
 		this.ID = ID;
 		this.arrive = arrive;
 		this.execSize = execSize;
+		this.timeRemaining = execSize;
+		this.turnAroundTime = -1;
+		this.startTime = -1;
+	}
+	
+	Process(String ID, int arrive, int execSize, int timeRemaining){
+		this.ID = ID;
+		this.arrive = arrive;
+		this.execSize = execSize;
+		this.timeRemaining = timeRemaining;
 		this.turnAroundTime = -1;
 		this.startTime = -1;
 	}

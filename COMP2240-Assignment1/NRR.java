@@ -6,10 +6,7 @@ public class NRR extends Algorithm{
 		super("NRR", processList, dispatchTime);
 	}
 	
-	public void begin() {
-		
-	}
-	public void process() {
-		
+	public boolean process() {
+		return true;
 	}
 }

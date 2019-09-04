@@ -6,10 +6,7 @@ public class FB extends Algorithm{
 		super("FB", processList, dispatchTime);
 	}
 	
-	public void begin() {
-		
-	}
-	public void process() {
-		
+	public boolean process() {
+		return true;
 	}
 }
