@@ -20,7 +20,7 @@ public class Dispatcher {
 	
 	public void setup() {
 		algorithmList.add(new FCFS(processList, dispatchTime));
-		algorithmList.add(new RR((ArrayList<Process>)processList.clone(), dispatchTime));
+		algorithmList.add(new RR(processList, dispatchTime));
 		//algorithmList.add(new FB((ArrayList<Process>)processList.clone(), dispatchTime));
 		//algorithmList.add(new NRR((ArrayList<Process>)processList.clone(), dispatchTime));
 	}

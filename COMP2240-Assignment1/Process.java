@@ -6,6 +6,7 @@ public class Process {
 	private int execSize;
 	private int turnAroundTime;
 	private int startTime;
+	private int endTime;
 	private int timeRemaining;
 	
 	
@@ -15,6 +16,7 @@ public class Process {
 		this.execSize = execSize;
 		this.timeRemaining = execSize;
 		this.turnAroundTime = -1;
+		this.endTime = -1;
 		this.startTime = -1;
 	}
 	
@@ -57,6 +59,14 @@ public class Process {
 
 	public void setStartTime(int startTime) {
 		this.startTime = startTime;
+	}
+	
+	public int getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(int endTime) {
+		this.endTime = endTime;
 	}
 	
 	public String getID() {
