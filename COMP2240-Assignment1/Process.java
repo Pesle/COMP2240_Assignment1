@@ -15,9 +15,9 @@ public class Process {
 		this.arrive = arrive;
 		this.execSize = execSize;
 		this.timeRemaining = execSize;
-		this.turnAroundTime = -1;
-		this.endTime = -1;
-		this.startTime = -1;
+		this.turnAroundTime = 0;
+		this.endTime = 0;
+		this.startTime = 0;
 	}
 	
 	Process(String ID, int arrive, int execSize, int timeRemaining){
