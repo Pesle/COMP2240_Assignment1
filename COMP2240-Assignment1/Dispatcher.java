@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -19,10 +20,10 @@ public class Dispatcher {
 	}
 	
 	public void setup() {
-		algorithmList.add(new FCFS(processList, dispatchTime));
-		algorithmList.add(new RR(processList, dispatchTime));
-		//algorithmList.add(new FB((ArrayList<Process>)processList.clone(), dispatchTime));
-		//algorithmList.add(new NRR((ArrayList<Process>)processList.clone(), dispatchTime));
+		algorithmList.add(new FCFS(cloneQueue(processList), dispatchTime));
+		algorithmList.add(new RR(cloneQueue(processList), dispatchTime, 4));
+		//algorithmList.add(new FB(cloneQueue(processList), dispatchTime, 4));
+		//algorithmList.add(new NRR(cloneQueue(processList), dispatchTime));
 	}
 	
 	public void begin() {
@@ -46,19 +47,43 @@ public class Dispatcher {
 	public void setDispatchTime(int dispatchTime) {
 		this.dispatchTime = dispatchTime;
 	}
+	
+	public Queue<Process> cloneQueue(Queue<Process> queue){
+		Queue<Process> newQueue = new LinkedList<Process>();
+		Iterator<Process> it = queue.iterator();
+		while (it.hasNext()) {
+			Process cur = it.next();
+			newQueue.add(new Process(cur.getID(), cur.getArrive(), cur.getExecSize()));
+		}
+		return newQueue;
+	}
 }
 
 //Comparator used to sort the Priority Queue
 class ProcessComparator implements Comparator<Process>{
 
 	@Override
-	public int compare(Process p1, Process p2) {
-		if(p1.getArrive() < p2.getArrive()) {
+	public int compare(Process px, Process py) {
+		//Check if px arrives sooner
+		if(px.getArrive() < py.getArrive()) {
 			return -1;
-		}else if(p1.getArrive() > p2.getArrive()) {
+			
+		//Check if py arrives sooner
+		}else if(px.getArrive() > py.getArrive()) {
 			return 1;
+			
 		}else {
-			return 0;
+			//Check if px is a higher ID
+			if(Integer.parseInt(px.getID().substring(1)) > Integer.parseInt(py.getID().substring(1))) {
+				return 1;
+				
+			//Check if py is a higher ID
+			}else if(Integer.parseInt(px.getID().substring(1)) < Integer.parseInt(py.getID().substring(1))) {
+				return -1;
+				
+			}else {	
+				return 0;
+			}
 		}
 	}
 }

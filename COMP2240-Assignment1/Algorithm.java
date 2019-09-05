@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -51,25 +50,46 @@ public abstract class Algorithm {
 			result += "T"+ cur.getStartTime() + ": " + cur.getID()+"\n";
 		}
 		result += "\nProcess	Turnaround Time	Waiting Time\n";
-		it = completedProcesses.iterator();
-		while (it.hasNext()) {
-			Process cur = it.next();
-			result += cur.getID() + "	" + cur.getTurnAroundTime() + "		" + waitingTime(cur) + "\n";
+		ArrayList<Process> joined = joinProcessData(completedProcesses);
+		Iterator<Process> it1 = joined.iterator();
+		while (it1.hasNext()) {
+			Process cur = it1.next();
+			result += cur.getID() + "	" + cur.getTurnAroundTime() + "		" + cur.getWaitingTime() + "\n";
 		}
 		result += "\n";
 		return result;
 	}
 	
 	public int waitingTime(Process process) {
-		System.out.println(process.getID() + ": " + process.getStartTime() + " - " + process.getArrive() + " = " + (process.getStartTime()-process.getArrive()) + " : " + (process.getExecSize()-process.getTimeRemaining()));
-		int result = 0;
-		if(process.getStartTime() > process.getArrive())
-			result = process.getStartTime()-process.getArrive();
-		else
-			result = (process.getExecSize()-process.getTimeRemaining())-process.getStartTime();
-		return result;
+		return process.getStartTime()-process.getArrive();
 	}
 	
+	public ArrayList<Process> joinProcessData(ArrayList<Process> list){
+		ArrayList<Process> newList = new ArrayList<Process>();
+		Iterator<Process> it = list.iterator();
+		while (it.hasNext()) {
+			Process cur = it.next();
+			Process found = listContains(newList, cur.getID());
+			if(found != null){
+				found.setTurnAroundTime(found.getTurnAroundTime() + cur.getTurnAroundTime());
+				found.setWaitingTime(found.getWaitingTime() + cur.getWaitingTime());
+			}else {
+				newList.add(cur);
+			}
+		}
+		return newList;
+	}
+	
+	private Process listContains(ArrayList<Process> list, String ID) {
+		Iterator<Process> it = list.iterator();
+		while (it.hasNext()) {
+			Process cur = it.next();
+			if(cur.getID().contentEquals(ID)) {
+				return cur;
+			}
+		}
+		return null;
+	}
 	
 	public boolean dispatcher() {
 		if(processList.size() > 0) {
@@ -78,7 +98,7 @@ public abstract class Algorithm {
 				Process cur = processList.poll();
 				if(cur.getArrive() <= runTime) {
 					processQueue.add(cur);
-					printQueue(processQueue);
+					//printQueue(processQueue);
 					//System.out.println(cur.getID() + " - " +cur.getArrive() + " <= " +runTime);
 				}else {
 					processList.push(cur);
@@ -117,7 +137,7 @@ public abstract class Algorithm {
 				//System.out.println(cur.getID());
 				if(!process()) {
 					processQueue.add(runningProcess);
-					printQueue(processQueue);
+					//printQueue(processQueue);
 					//System.out.println(runningProcess.getID() + " - " +runningProcess.getArrive() + " <=x " +runTime);
 				}else {
 					//System.out.println(runningProcess.getID() + " Completed");

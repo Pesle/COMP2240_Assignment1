@@ -14,6 +14,7 @@ public class FCFS extends Algorithm{
 		runningProcess.setStartTime(runTime);
 		runTime += runningProcess.getExecSize();
 		runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
+		runningProcess.setWaitingTime(waitingTime(runningProcess));
 		return true;
 	}
 }

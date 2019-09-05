@@ -2,9 +2,9 @@ import java.util.Queue;
 
 public class RR extends Algorithm{
 	
-	private final int QUANTUM = 4;
+	private int quantum;
 	
-	public RR(Queue<Process> processList, int dispatchTime) {
+	public RR(Queue<Process> processList, int dispatchTime, int quantum) {
 		super("RR", processList, dispatchTime);
 	}
 	
@@ -15,25 +15,25 @@ public class RR extends Algorithm{
 		}
 		runTime += dispatchTime;
 		runningProcess.setStartTime(runTime);
-		int next = QUANTUM;
+		int next = quantum;
 		if(processQueue.size() == 0 && processList.size() == 0) {
 			runTime += runningProcess.getTimeRemaining();
 			runningProcess.setTimeRemaining(0);
-			runningProcess.setEndTime(runTime);
+			runningProcess.setWaitingTime(waitingTime(runningProcess));
 			runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
 			System.out.println(runningProcess.getID() + " " + runTime);
 			return true;
 		}else if(runningProcess.getTimeRemaining() <= next) {
 			runTime += runningProcess.getTimeRemaining();
 			runningProcess.setTimeRemaining(0);
+			runningProcess.setWaitingTime(waitingTime(runningProcess));
 			runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
-			runningProcess.setEndTime(runTime);
 			return true;
 		}
 		runTime += next;
+		runningProcess.setWaitingTime(waitingTime(runningProcess));
 		runningProcess.setTimeRemaining(runningProcess.getTimeRemaining()-next);
 		runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
-		runningProcess.setEndTime(runTime);
 		runningProcess.setArrive(runTime);
 		//System.out.println(runningProcess.getID() + " " + runTime + " - " + runningProcess.getTimeRemaining());
 		return false;

@@ -1,12 +1,12 @@
 
-public class Process {
+public class Process  {
 
 	private String ID;
 	private int arrive;
 	private int execSize;
 	private int turnAroundTime;
 	private int startTime;
-	private int endTime;
+	private int waitingTime;
 	private int timeRemaining;
 	
 	
@@ -16,7 +16,7 @@ public class Process {
 		this.execSize = execSize;
 		this.timeRemaining = execSize;
 		this.turnAroundTime = 0;
-		this.endTime = 0;
+		this.waitingTime = 0;
 		this.startTime = 0;
 	}
 	
@@ -25,8 +25,9 @@ public class Process {
 		this.arrive = arrive;
 		this.execSize = execSize;
 		this.timeRemaining = timeRemaining;
-		this.turnAroundTime = -1;
-		this.startTime = -1;
+		this.turnAroundTime = 0;
+		this.waitingTime = 0;
+		this.startTime = 0;
 	}
 
 	public int getArrive() {
@@ -61,12 +62,12 @@ public class Process {
 		this.startTime = startTime;
 	}
 	
-	public int getEndTime() {
-		return endTime;
+	public int getWaitingTime() {
+		return waitingTime;
 	}
-
-	public void setEndTime(int endTime) {
-		this.endTime = endTime;
+	
+	public void setWaitingTime(int waitingTime) {
+		this.waitingTime = new Integer(waitingTime);
 	}
 	
 	public String getID() {
