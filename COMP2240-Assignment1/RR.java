@@ -6,6 +6,7 @@ public class RR extends Algorithm{
 	
 	public RR(Queue<Process> processList, int dispatchTime, int quantum) {
 		super("RR", processList, dispatchTime);
+		this.quantum = quantum;
 	}
 	
 	public boolean process() {

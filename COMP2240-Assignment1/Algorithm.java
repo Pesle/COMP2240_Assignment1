@@ -18,11 +18,8 @@ public abstract class Algorithm {
 	
 	public Algorithm(String name, Queue<Process> processList, int dispatchTime) {
 		this.processQueue = new PriorityQueue<Process>(new ProcessComparator());
-		this.processList = new LinkedList<Process>();
-		Iterator<Process> it = processList.iterator();
-		while (it.hasNext()) {
-			this.processList.add(it.next());
-		}
+		this.processList = (LinkedList<Process>) processList;
+		
 		this.completedProcesses = new ArrayList<Process>();
 		this.name = name;
 		this.state = State.IDLE;
@@ -120,6 +117,7 @@ public abstract class Algorithm {
 	
 	public void begin() {
 		//dispatcher();
+		printQueue(processList);
 		state = State.BUSY;
 		while(state != State.FINISHED) {
 			
@@ -134,7 +132,7 @@ public abstract class Algorithm {
 				state = State.BUSY;
 				Process cur = processQueue.poll();
 				runningProcess = new Process(cur.getID(), cur.getArrive(), cur.getExecSize(), cur.getTimeRemaining());
-				//System.out.println(cur.getID());
+				System.out.println("BUSY " + cur.getID());
 				if(!process()) {
 					processQueue.add(runningProcess);
 					//printQueue(processQueue);
