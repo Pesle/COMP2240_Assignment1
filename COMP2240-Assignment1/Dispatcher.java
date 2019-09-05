@@ -22,8 +22,8 @@ public class Dispatcher {
 	public void setup() {
 		algorithmList.add(new FCFS(cloneQueue(processList), dispatchTime));
 		algorithmList.add(new RR(cloneQueue(processList), dispatchTime, 4));
-		algorithmList.add(new FB(cloneQueue(processList), dispatchTime, 4));
-		//algorithmList.add(new NRR(cloneQueue(processList), dispatchTime));
+		//algorithmList.add(new FB(cloneQueue(processList), dispatchTime, 4));
+		algorithmList.add(new NRR(cloneQueue(processList), dispatchTime));
 	}
 	
 	public void begin() {
