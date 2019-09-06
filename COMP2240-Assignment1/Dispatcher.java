@@ -60,10 +60,10 @@ public class Dispatcher {
 }
 
 //Comparator used to sort the Priority Queue
-class ProcessComparator implements Comparator<Process>{
+class ProcessComparator<T extends Process> implements Comparator<T>{
 
 	@Override
-	public int compare(Process px, Process py) {
+	public int compare(T px, T py) {
 		//Check if px arrives sooner
 		if(px.getArrive() < py.getArrive()) {
 			return -1;

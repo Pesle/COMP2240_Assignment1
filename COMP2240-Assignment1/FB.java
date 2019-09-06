@@ -1,6 +1,7 @@
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class FB extends Algorithm{
+public class FB extends Algorithm<Process>{
 	
 	private int quantum;
 	private final int MAX_PRIORITY = 6;
@@ -9,7 +10,7 @@ public class FB extends Algorithm{
 	private Queue<Process>[] priorityQueues;
 	
 	public FB(Queue<Process> processList, int dispatchTime, int quantum) {
-		super("FB", processList, dispatchTime);
+		super("FB", (LinkedList<Process>) processList, dispatchTime);
 		priorityQueues = new Queue[MAX_PRIORITY-1];
 		for(int i = 0; i < MAX_PRIORITY; i++)
 		this.quantum = quantum;
@@ -18,7 +19,6 @@ public class FB extends Algorithm{
 	@Override
 	public void begin() {
 		//dispatcher();
-		printQueue(processList);
 		state = State.BUSY;
 		while(state != State.FINISHED) {
 			

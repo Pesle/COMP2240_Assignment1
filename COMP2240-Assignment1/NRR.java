@@ -1,11 +1,22 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class NRR extends Algorithm{
+public class NRR extends Algorithm<NRRProcess>{	
 	
-	private 
+	public NRR(Queue<Process> cloneQueue, int dispatchTime) {
+		super("NRR", changeQueue(cloneQueue), dispatchTime);
+	}
 	
-	public NRR(Queue<Process> processList, int dispatchTime) {
-		super("NRR", processList, dispatchTime);
+	private static LinkedList<NRRProcess> changeQueue(Queue<Process> queue){
+		LinkedList<NRRProcess> newProcessList = new LinkedList<NRRProcess>();
+		Iterator<Process> it = queue.iterator();
+		while (it.hasNext()) {
+			Process cur = it.next();
+			newProcessList.add(new NRRProcess(cur.getID(), cur.getArrive(), cur.getExecSize()));
+		}
+		return newProcessList;
 	}
 	
 	public boolean process() {
@@ -15,7 +26,7 @@ public class NRR extends Algorithm{
 		}
 		runTime += dispatchTime;
 		runningProcess.setStartTime(runTime);
-		int next = quantum;
+		int next = runningProcess.getQuantum();
 		if(processQueue.size() == 0 && processList.size() == 0) {
 			runTime += runningProcess.getTimeRemaining();
 			runningProcess.setTimeRemaining(0);
@@ -34,38 +45,34 @@ public class NRR extends Algorithm{
 		runningProcess.setWaitingTime(waitingTime(runningProcess));
 		runningProcess.setTimeRemaining(runningProcess.getTimeRemaining()-next);
 		runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
+		runningProcess.decreaseQuantum();
 		runningProcess.setArrive(runTime);
 		//System.out.println(runningProcess.getID() + " " + runTime + " - " + runningProcess.getTimeRemaining());
 		return false;
 	}
 }
 
-class NRRProcess{
+class NRRProcess extends Process{
 	
 	private static final int START_QUANTUM = 4;
 	
 	private int quantum;
-	private Process process;
 	
-	NRRProcess(Process process) {
-		this.process = process;
+	NRRProcess(String ID, int arrive, int execSize) {
+		super(ID, arrive, execSize);
 		this.quantum = START_QUANTUM;
 	}
 	
-	void setQuantum(int quantum) {
-		this.quantum = quantum;
+	NRRProcess(String ID, int arrive, int execSize, int timeRemaining) {
+		super(ID, arrive, execSize, timeRemaining);
+	}
+
+	void decreaseQuantum() {
+		this.quantum--;
 	}
 	
 	int getQuantum() {
 		return quantum;
-	}
-	
-	Process getProcess() {
-		return process;
-	}
-	
-	void setProcess(Process process) {
-		this.process = process;
 	}
 	
 }

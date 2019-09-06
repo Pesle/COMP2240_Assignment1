@@ -92,5 +92,8 @@ public class Process  {
 		return (getTimeRemaining() == 0) ? true : false;
 	}
 	
+	public Process copy() {
+		return new Process(ID, arrive, execSize, timeRemaining);
+	}
 
 }

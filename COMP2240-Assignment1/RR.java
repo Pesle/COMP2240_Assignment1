@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.Queue;
 
 public class RR extends Algorithm{
@@ -5,7 +6,7 @@ public class RR extends Algorithm{
 	private int quantum;
 	
 	public RR(Queue<Process> processList, int dispatchTime, int quantum) {
-		super("RR", processList, dispatchTime);
+		super("RR", (LinkedList) processList, dispatchTime);
 		this.quantum = quantum;
 	}
 	

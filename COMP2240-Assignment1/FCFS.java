@@ -1,9 +1,10 @@
+import java.util.LinkedList;
 import java.util.Queue;
 
-public class FCFS extends Algorithm{
+public class FCFS extends Algorithm<Process>{
 	
 	public FCFS(Queue<Process> queue, int dispatchTime) {
-		super("FCFS", queue, dispatchTime);
+		super("FCFS", (LinkedList<Process>) queue, dispatchTime);
 	}
 	
 	public boolean process() {

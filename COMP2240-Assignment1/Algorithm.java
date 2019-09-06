@@ -4,23 +4,24 @@ import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-public abstract class Algorithm {
+public abstract class Algorithm<T extends Process> {
 	protected String name;
 	
 	protected int dispatchTime;
 	protected int runTime;
 	protected State state;
 	
-	protected Process runningProcess;
-	protected ArrayList<Process> completedProcesses;
-	protected Queue<Process> processQueue;
-	protected LinkedList<Process> processList;
+	protected T runningProcess;
+	protected ArrayList<T> completedProcesses;
+	protected Queue<T> processQueue;
+	protected LinkedList<T> processList;
 	
-	public Algorithm(String name, Queue<Process> processList, int dispatchTime) {
-		this.processQueue = new PriorityQueue<Process>(new ProcessComparator());
-		this.processList = (LinkedList<Process>) processList;
+	public Algorithm(String name, LinkedList<T> processList, int dispatchTime) {
+		this.processQueue = new PriorityQueue<T>(new ProcessComparator());
 		
-		this.completedProcesses = new ArrayList<Process>();
+		this.processList =  processList;
+		
+		this.completedProcesses = new ArrayList<T>();
 		this.name = name;
 		this.state = State.IDLE;
 		this.dispatchTime = dispatchTime;
@@ -41,16 +42,16 @@ public abstract class Algorithm {
 	
 	public String toString() {
 		String result = name + ":\n";
-		Iterator<Process> it = completedProcesses.iterator();
+		Iterator<T> it = completedProcesses.iterator();
 		while (it.hasNext()) {
-			Process cur = it.next();
+			T cur = it.next();
 			result += "T"+ cur.getStartTime() + ": " + cur.getID()+"\n";
 		}
 		result += "\nProcess	Turnaround Time	Waiting Time\n";
-		ArrayList<Process> joined = joinProcessData(completedProcesses);
-		Iterator<Process> it1 = joined.iterator();
+		ArrayList<T> joined = joinProcessData(completedProcesses);
+		Iterator<T> it1 = joined.iterator();
 		while (it1.hasNext()) {
-			Process cur = it1.next();
+			T cur = it1.next();
 			result += cur.getID() + "	" + cur.getTurnAroundTime() + "		" + cur.getWaitingTime() + "\n";
 		}
 		result += "\n";
@@ -61,12 +62,12 @@ public abstract class Algorithm {
 		return process.getStartTime()-process.getArrive();
 	}
 	
-	public ArrayList<Process> joinProcessData(ArrayList<Process> list){
-		ArrayList<Process> newList = new ArrayList<Process>();
-		Iterator<Process> it = list.iterator();
+	public ArrayList<T> joinProcessData(ArrayList<T> list){
+		ArrayList<T> newList = new ArrayList<T>();
+		Iterator<T> it = list.iterator();
 		while (it.hasNext()) {
-			Process cur = it.next();
-			Process found = listContains(newList, cur.getID());
+			T cur = it.next();
+			T found = listContains(newList, cur.getID());
 			if(found != null){
 				found.setTurnAroundTime(found.getTurnAroundTime() + cur.getTurnAroundTime());
 				found.setWaitingTime(found.getWaitingTime() + cur.getWaitingTime());
@@ -77,10 +78,10 @@ public abstract class Algorithm {
 		return newList;
 	}
 	
-	private Process listContains(ArrayList<Process> list, String ID) {
-		Iterator<Process> it = list.iterator();
+	private T listContains(ArrayList<T> list, String ID) {
+		Iterator<T> it = list.iterator();
 		while (it.hasNext()) {
-			Process cur = it.next();
+			T cur = it.next();
 			if(cur.getID().contentEquals(ID)) {
 				return cur;
 			}
@@ -92,7 +93,7 @@ public abstract class Algorithm {
 		if(processList.size() > 0) {
 			int size = new Integer(processList.size());
 			for(int i = 0; i < size; i++) {
-				Process cur = processList.poll();
+				T cur = processList.poll();
 				if(cur.getArrive() <= runTime) {
 					processQueue.add(cur);
 					//printQueue(processQueue);
@@ -106,18 +107,8 @@ public abstract class Algorithm {
 		return false;
 	}
 	
-	public void printQueue(Queue<Process> queue) {
-		Iterator<Process> it = queue.iterator();
-		while (it.hasNext()) {
-			Process cur = it.next();
-			System.out.print(cur.getID() + "("+ cur.getArrive()  +") , ");
-		}
-		System.out.print("\n");
-	}
-	
 	public void begin() {
 		//dispatcher();
-		printQueue(processList);
 		state = State.BUSY;
 		while(state != State.FINISHED) {
 			
@@ -130,8 +121,8 @@ public abstract class Algorithm {
 				
 			}else if(processQueue.size() > 0) {
 				state = State.BUSY;
-				Process cur = processQueue.poll();
-				runningProcess = new Process(cur.getID(), cur.getArrive(), cur.getExecSize(), cur.getTimeRemaining());
+				T cur = processQueue.poll();
+				runningProcess = (T) cur.copy();
 				System.out.println("BUSY " + cur.getID());
 				if(!process()) {
 					processQueue.add(runningProcess);
