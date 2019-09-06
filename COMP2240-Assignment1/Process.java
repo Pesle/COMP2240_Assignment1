@@ -1,6 +1,17 @@
+/*
+ *  ----C3282137----
+ *  Ryan Jobse
+ *  COMP2240 S2 2019
+ *  Assignment 1
+ *  
+ *  Process.java
+ *  Process stores information 
+ *  about each process
+ */
 
 public class Process  {
 
+//Variables
 	protected String ID;
 	protected int arrive;
 	protected int execSize;
@@ -9,7 +20,7 @@ public class Process  {
 	protected int waitingTime;
 	protected int timeRemaining;
 	
-	
+//Initializes
 	Process(String ID, int arrive, int execSize){
 		this.ID = ID;
 		this.arrive = arrive;
@@ -30,6 +41,7 @@ public class Process  {
 		this.startTime = 0;
 	}
 
+//Setters and Getters
 	public int getArrive() {
 		return arrive;
 	}
@@ -86,16 +98,12 @@ public class Process  {
 		this.timeRemaining = timeRemaining;
 	}
 	
-	public boolean isDone() {
-		assert getTimeRemaining() >= 0; //Time remaining should not be negative
-		
-		return (getTimeRemaining() == 0) ? true : false;
-	}
-	
+//Copy the current process without extra information
 	public Process copy() {
 		return new Process(ID, arrive, execSize, timeRemaining);
 	}
 	
+//Copy the full process with all information
 	public Process fullCopy() {
 		Process newProcess = new Process(ID, arrive, execSize, timeRemaining);
 		newProcess.setTurnAroundTime(turnAroundTime);

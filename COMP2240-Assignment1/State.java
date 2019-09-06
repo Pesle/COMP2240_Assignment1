@@ -5,7 +5,7 @@
  *  Assignment 1
  *  
  *  State.java
- *  Enum class for the states of stages
+ *  Enum class for the states of algorithms
  */
 
 public enum State {

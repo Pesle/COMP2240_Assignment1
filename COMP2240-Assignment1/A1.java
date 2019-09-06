@@ -6,18 +6,24 @@ public class A1 {
 
 	public static void main(String[] args) {
 		
+		//Create the dispatcher
 		Dispatcher dispatcher = new Dispatcher();
 		
-		// TODO Auto-generated method stub
+		//Make sure that the file has been set
 		if (args.length == 1){
 			String name = args[0];
 	        
-	        //Request name
+	        //Display data file and its directory
 	        System.out.println("File: "+ System.getProperty("user.dir") + "\\" + name + "\n");
 	        
+	        //Import the file into the dispatcher if it imports
 	        if(importFile(name, dispatcher)) {
+	        	
+	        	//Setup the dispatcher 
 	        	dispatcher.setup();
+	        	//Begin the scheduling algorithms
 	        	dispatcher.begin();
+	        	//Display the results
 	        	dispatcher.results();
 	        }else {
 	        	System.out.println("Error Occured While Importing!");
@@ -56,6 +62,8 @@ public class A1 {
 			    	
 			    	//Split lines between type and data
 			        String[] data = lines[i].split(": ");
+			        
+			        //Search for Dispatch time
 			        if(data[0].equals("DISP")) {
 			        	int time = Integer.parseInt(data[1]);
 			        	if(time >= 0.0) {
@@ -67,6 +75,8 @@ public class A1 {
 			        		break;
 			        	}
 			        }
+			        
+			        //Search for IDs
 			        if(data[0].equals("ID")) {
 			        	String[] arrive = lines[i+1].split(": ");
 			        	String[] execSize = lines[i+2].split(": ");

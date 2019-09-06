@@ -1,3 +1,13 @@
+/*
+ *  ----C3282137----
+ *  Ryan Jobse
+ *  COMP2240 S2 2019
+ *  Assignment 1
+ *  
+ *  Dispatcher.java
+ *  Manages the algorithms and processes
+ */
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -7,25 +17,31 @@ import java.util.Queue;
 
 public class Dispatcher {
 	
+	//List that stores processes from the file
 	private Queue<Process> processList;
 	
+	//List of algorithms to run
 	private ArrayList<Algorithm> algorithmList;
 	
+	//Dispatch time from file
 	private int dispatchTime;
 	
+	//Initialize
 	public Dispatcher(){
 		this.processList = new PriorityQueue<Process>(new ProcessComparator());
 		this.algorithmList = new ArrayList<Algorithm>();
 		this.dispatchTime = 0;
 	}
 	
+	//Add all algorithms to list with a copy of the process list, dispatch time and quantums
 	public void setup() {
-		algorithmList.add((Algorithm<Process>) new FCFS(cloneQueue(processList), dispatchTime));
-		algorithmList.add((Algorithm<Process>) new RR(cloneQueue(processList), dispatchTime, 4));
-		algorithmList.add((Algorithm<Process>) new FB(cloneQueue(processList), dispatchTime, 4));
-		algorithmList.add((Algorithm<NRRProcess>) new NRR(cloneQueue(processList), dispatchTime));
+		algorithmList.add((Algorithm<Process>) 		new FCFS(cloneQueue(processList), dispatchTime));
+		algorithmList.add((Algorithm<Process>)		new RR(cloneQueue(processList), dispatchTime, 4));
+		algorithmList.add((Algorithm<Process>) 		new FB(cloneQueue(processList), dispatchTime, 4));
+		algorithmList.add((Algorithm<NRRProcess>) 	new NRR(cloneQueue(processList), dispatchTime));
 	}
 	
+	//Loop through algorithms and run them.
 	public void begin() {
 		Iterator<Algorithm> it = algorithmList.iterator();
 		while (it.hasNext()) {
@@ -33,11 +49,14 @@ public class Dispatcher {
 		}
 	}
 	
+	//Loop through the algorithms and display their results
 	public void results() {
 		Iterator<Algorithm> it = algorithmList.iterator();
 		while (it.hasNext()) {
 			System.out.print(it.next().toString());
 		}
+		
+		//Display the summary information
 		System.out.println("Summary\nAlgorithm	Average Turnaround Time	 Average Waiting Time");
 		it = algorithmList.iterator();
 		while (it.hasNext()) {
@@ -46,14 +65,17 @@ public class Dispatcher {
 		}
 	}
 	
+	//Add process to list
 	public void addProcess(String id, int arrive, int execSize) {
 		processList.add(new Process(id, arrive, execSize));
 	}
 	
+	//Set dispatch time
 	public void setDispatchTime(int dispatchTime) {
 		this.dispatchTime = dispatchTime;
 	}
 	
+	//Create a copy of a queue
 	public Queue<Process> cloneQueue(Queue<Process> queue){
 		Queue<Process> newQueue = new LinkedList<Process>();
 		Iterator<Process> it = queue.iterator();
