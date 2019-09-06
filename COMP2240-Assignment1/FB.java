@@ -11,8 +11,10 @@ public class FB extends Algorithm<Process>{
 	
 	public FB(Queue<Process> processList, int dispatchTime, int quantum) {
 		super("FB", (LinkedList<Process>) processList, dispatchTime);
-		priorityQueues = new Queue[MAX_PRIORITY-1];
-		for(int i = 0; i < MAX_PRIORITY; i++)
+		priorityQueues = new Queue[MAX_PRIORITY];
+		for(int i = 0; i < MAX_PRIORITY; i++) {
+			priorityQueues[i] = new LinkedList<Process>();
+		}
 		this.quantum = quantum;
 	}
 	
@@ -31,7 +33,7 @@ public class FB extends Algorithm<Process>{
 				
 			}else if(priorityQueues[currentPriority].size() > 0) {
 				state = State.BUSY;
-				Process cur = processQueue.poll();
+				Process cur = priorityQueues[currentPriority].poll();
 				runningProcess = new Process(cur.getID(), cur.getArrive(), cur.getExecSize(), cur.getTimeRemaining());
 				System.out.println("BUSY " + cur.getID());
 				if(!process()) {
@@ -43,10 +45,17 @@ public class FB extends Algorithm<Process>{
 				}
 				completedProcesses.add(runningProcess);
 				
-			}else{
-				System.out.println("IDLE");
-				state = State.IDLE;
-				runTime++;
+			}else if(currentPriority < MAX_PRIORITY-1) {
+				currentPriority++;
+			}else {
+				int newPriority = findQueue();
+				if(newPriority == -1) {
+					System.out.println("IDLE");
+					state = State.IDLE;
+					runTime++;
+				}else {
+					currentPriority = newPriority;
+				}
 			}
 		}
 	}
@@ -99,4 +108,15 @@ public class FB extends Algorithm<Process>{
 		//System.out.println(runningProcess.getID() + " " + runTime + " - " + runningProcess.getTimeRemaining());
 		return false;
 	}
+	
+	private int findQueue() {
+		for(int i = 0; i < MAX_PRIORITY; i++) {
+			if(priorityQueues[i].size() > 0) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	
 }

@@ -17,10 +17,8 @@ public class NRRProcess extends Process{
 	}
 
 	void decreaseQuantum() {
-		System.out.print(quantum + " ");
 		if(quantum > MINIMUM_QUANTUM) {
 			this.quantum--;
-			System.out.print(quantum + "\n");
 		}
 	}
 	
