@@ -30,4 +30,14 @@ public class NRRProcess extends Process{
 	public NRRProcess copy() {
 		return new NRRProcess(ID, arrive, execSize, timeRemaining, quantum);
 	}
+	
+	@Override
+	public NRRProcess fullCopy() {
+		NRRProcess newProcess = new NRRProcess(ID, arrive, execSize);
+		newProcess.setTimeRemaining(timeRemaining);
+		newProcess.setTurnAroundTime(turnAroundTime);
+		newProcess.setWaitingTime(waitingTime);
+		newProcess.setStartTime(startTime);
+		return newProcess;
+	}
 }

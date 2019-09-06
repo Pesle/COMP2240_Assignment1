@@ -38,6 +38,12 @@ public class Dispatcher {
 		while (it.hasNext()) {
 			System.out.print(it.next().toString());
 		}
+		System.out.println("Summary\nAlgorithm	Average Turnaround Time	 Average Waiting Time");
+		it = algorithmList.iterator();
+		while (it.hasNext()) {
+			Algorithm cur = it.next();
+			System.out.format("%-16s%-25.2f%-16.2f\n", cur.getName(), cur.getAverageTurnaround(), cur.getAverageWait());
+		}
 	}
 	
 	public void addProcess(String id, int arrive, int execSize) {

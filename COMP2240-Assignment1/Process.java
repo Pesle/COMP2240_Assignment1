@@ -95,5 +95,13 @@ public class Process  {
 	public Process copy() {
 		return new Process(ID, arrive, execSize, timeRemaining);
 	}
+	
+	public Process fullCopy() {
+		Process newProcess = new Process(ID, arrive, execSize, timeRemaining);
+		newProcess.setTurnAroundTime(turnAroundTime);
+		newProcess.setWaitingTime(waitingTime);
+		newProcess.setStartTime(startTime);
+		return newProcess;
+	}
 
 }

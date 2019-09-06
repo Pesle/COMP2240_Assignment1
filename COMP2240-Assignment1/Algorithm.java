@@ -40,6 +40,28 @@ public abstract class Algorithm<T extends Process> {
 		return state;
 	}
 	
+	public double getAverageTurnaround() {
+		double averageTurnaround = 0.0;
+		ArrayList<T> joined = joinProcessData(completedProcesses);
+		Iterator<T> it1 = joined.iterator();
+		while (it1.hasNext()) {
+			T cur = it1.next();
+			averageTurnaround += cur.getTurnAroundTime();
+		}
+		return averageTurnaround/ joined.size();
+	}
+	
+	public double getAverageWait() {
+		double averageWait = 0.0;
+		ArrayList<T> joined = joinProcessData(completedProcesses);
+		Iterator<T> it1 = joined.iterator();
+		while (it1.hasNext()) {
+			T cur = it1.next();
+			averageWait += cur.getWaitingTime();
+		}
+		return averageWait/ joined.size();
+	}
+	
 	public String toString() {
 		String result = name + ":\n";
 		Iterator<T> it = completedProcesses.iterator();
@@ -72,7 +94,7 @@ public abstract class Algorithm<T extends Process> {
 				found.setTurnAroundTime(found.getTurnAroundTime() + cur.getTurnAroundTime());
 				found.setWaitingTime(found.getWaitingTime() + cur.getWaitingTime());
 			}else {
-				newList.add(cur);
+				newList.add((T) cur.fullCopy());
 			}
 		}
 		return newList;

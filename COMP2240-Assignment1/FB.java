@@ -10,7 +10,7 @@ public class FB extends Algorithm<Process>{
 	private Queue<Process>[] priorityQueues;
 	
 	public FB(Queue<Process> processList, int dispatchTime, int quantum) {
-		super("FB", (LinkedList<Process>) processList, dispatchTime);
+		super("FB (constant)", (LinkedList<Process>) processList, dispatchTime);
 		priorityQueues = new Queue[MAX_PRIORITY];
 		for(int i = 0; i < MAX_PRIORITY; i++) {
 			priorityQueues[i] = new LinkedList<Process>();
@@ -46,7 +46,11 @@ public class FB extends Algorithm<Process>{
 				completedProcesses.add(runningProcess);
 				
 			}else if(currentPriority < MAX_PRIORITY-1) {
-				currentPriority++;
+				if(findQueue() == 0) {
+					currentPriority = 0;
+				}else {
+					currentPriority++;
+				}
 			}else {
 				int newPriority = findQueue();
 				if(newPriority == -1) {
@@ -86,14 +90,7 @@ public class FB extends Algorithm<Process>{
 		runTime += dispatchTime;
 		runningProcess.setStartTime(runTime);
 		int next = quantum;
-		if(processQueue.size() == 0 && processList.size() == 0) {
-			runTime += runningProcess.getTimeRemaining();
-			runningProcess.setTimeRemaining(0);
-			runningProcess.setWaitingTime(waitingTime(runningProcess));
-			runningProcess.setTurnAroundTime(runTime - runningProcess.getArrive());
-			System.out.println(runningProcess.getID() + " " + runTime);
-			return true;
-		}else if(runningProcess.getTimeRemaining() <= next) {
+		if(runningProcess.getTimeRemaining() <= next) {
 			runTime += runningProcess.getTimeRemaining();
 			runningProcess.setTimeRemaining(0);
 			runningProcess.setWaitingTime(waitingTime(runningProcess));
