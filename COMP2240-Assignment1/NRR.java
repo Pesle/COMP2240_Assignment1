@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -50,29 +49,4 @@ public class NRR extends Algorithm<NRRProcess>{
 		//System.out.println(runningProcess.getID() + " " + runTime + " - " + runningProcess.getTimeRemaining());
 		return false;
 	}
-}
-
-class NRRProcess extends Process{
-	
-	private static final int START_QUANTUM = 4;
-	
-	private int quantum;
-	
-	NRRProcess(String ID, int arrive, int execSize) {
-		super(ID, arrive, execSize);
-		this.quantum = START_QUANTUM;
-	}
-	
-	NRRProcess(String ID, int arrive, int execSize, int timeRemaining) {
-		super(ID, arrive, execSize, timeRemaining);
-	}
-
-	void decreaseQuantum() {
-		this.quantum--;
-	}
-	
-	int getQuantum() {
-		return quantum;
-	}
-	
 }

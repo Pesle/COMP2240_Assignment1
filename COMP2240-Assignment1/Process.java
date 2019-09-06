@@ -1,13 +1,13 @@
 
 public class Process  {
 
-	private String ID;
-	private int arrive;
-	private int execSize;
-	private int turnAroundTime;
-	private int startTime;
-	private int waitingTime;
-	private int timeRemaining;
+	protected String ID;
+	protected int arrive;
+	protected int execSize;
+	protected int turnAroundTime;
+	protected int startTime;
+	protected int waitingTime;
+	protected int timeRemaining;
 	
 	
 	Process(String ID, int arrive, int execSize){

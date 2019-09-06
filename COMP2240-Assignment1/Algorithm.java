@@ -116,7 +116,7 @@ public abstract class Algorithm<T extends Process> {
 			
 			if(dispatcher() == false && state == State.IDLE) {
 				state = State.FINISHED;
-				System.out.println("FINISHED");
+				System.out.println(name + " FINISHED");
 				break;
 				
 			}else if(processQueue.size() > 0) {
@@ -124,6 +124,7 @@ public abstract class Algorithm<T extends Process> {
 				T cur = processQueue.poll();
 				runningProcess = (T) cur.copy();
 				System.out.println("BUSY " + cur.getID());
+				
 				if(!process()) {
 					processQueue.add(runningProcess);
 					//printQueue(processQueue);
