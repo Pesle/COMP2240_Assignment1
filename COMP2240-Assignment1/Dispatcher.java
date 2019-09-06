@@ -87,7 +87,7 @@ public class Dispatcher {
 	}
 }
 
-//Comparator used to sort the Priority Queue
+//Comparator used to sort the Priority Queues
 class ProcessComparator<T extends Process> implements Comparator<T>{
 
 	@Override
